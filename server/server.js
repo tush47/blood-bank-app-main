@@ -25,7 +25,12 @@ const app = express();
 
 // Apply middlewares
 app.use(express.json()); // Parse JSON bodies
-app.use(cors()); // Enable Cross-Origin Resource Sharing
+// app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use (cors (
+origin: ["https://blood-bank-app-main-ovqf.vercel.app"],
+methods: ["POST", "GE],
+credentials: true
+)) ;
 app.use(morgan("dev")); // Log HTTP requests
 
 // Define routes
