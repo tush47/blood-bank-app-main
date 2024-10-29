@@ -28,7 +28,7 @@ app.use(express.json()); // Parse JSON bodies
 // app.use(cors()); // Enable Cross-Origin Resource Sharing
 app.use (cors (
 origin: ["https://blood-bank-app-main.vercel.app"],
-methods: ["POST", "GE],
+methods: ["GET", "POST", "PUT", "DELETE"],
 credentials: true
 )) ;
 app.use(morgan("dev")); // Log HTTP requests
