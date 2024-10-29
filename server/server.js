@@ -29,7 +29,7 @@ app.use(express.json()); // Parse JSON bodies
 app.use (cors (
 origin: ["https://blood-bank-app-main.vercel.app"],
 methods: ["GET", "POST", "PUT", "DELETE"],
-credentials: true
+credentials: true,
 )) ;
 app.use(morgan("dev")); // Log HTTP requests
 
