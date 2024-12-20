@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Layout from "../components/shared/Layout/Layout";
 import API from "../services/API";
 import { useSelector } from "react-redux";
@@ -7,27 +7,28 @@ import { useSelector } from "react-redux";
 const Donation = () => {
   const { user } = useSelector((state) => state.auth);
   const [data, setData] = useState([]);
-  //find donar records
-  const getDonars = async () => {
+
+  // Memoized function to fetch donation records
+  const getDonars = useCallback(async () => {
     try {
-      const { data } = await API.post("/inventory/get-inventory-hospital", {
+      const response = await API.post("/inventory/get-inventory-hospital", {
         filters: {
           inventoryType: "in",
           donar: user?._id,
         },
       });
-      if (data?.success) {
-        setData(data?.inventory);
-        console.log(data);
+      if (response?.data?.success) {
+        setData(response.data.inventory);
+        console.log(response.data);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching donation records:", error);
     }
-  };
+  }, [user?._id]); // Dependency array ensures stability
 
   useEffect(() => {
     getDonars();
-  }, []);
+  }, [getDonars]); // Effect runs only when `getDonars` changes
 
   return (
     <Layout>
@@ -36,22 +37,30 @@ const Donation = () => {
           <thead>
             <tr>
               <th scope="col">Blood Group</th>
-              <th scope="col">Inventory TYpe</th>
+              <th scope="col">Inventory Type</th>
               <th scope="col">Quantity</th>
               <th scope="col">Email</th>
               <th scope="col">Date</th>
             </tr>
           </thead>
           <tbody>
-            {data?.map((record) => (
-              <tr key={record._id}>
-                <td>{record.bloodGroup}</td>
-                <td>{record.inventoryType}</td>
-                <td>{record.quantity}</td>
-                <td>{record.email}</td>
-                <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
+            {data.length > 0 ? (
+              data.map((record) => (
+                <tr key={record._id}>
+                  <td>{record.bloodGroup}</td>
+                  <td>{record.inventoryType}</td>
+                  <td>{record.quantity}</td>
+                  <td>{record.email}</td>
+                  <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="text-center">
+                  No records found.
+                </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

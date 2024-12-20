@@ -25,11 +25,11 @@ const app = express();
 
 // Apply middlewares
 app.use(express.json()); // Parse JSON bodies
-// app.use(cors()); // Enable Cross-Origin Resource Sharing
-app.use (cors (
-origin: ["https://blood-bank-app-main.vercel.app"],
+app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use (cors ({
+origin: ["http://localhost:3000"],
 methods: ["GET", "POST", "PUT", "DELETE"],
-credentials: true,
+credentials: true,}
 )) ;
 app.use(morgan("dev")); // Log HTTP requests
 
@@ -41,7 +41,7 @@ app.use("/api/v1/analytics", require("./routes/analyticsRoutes"));
 app.use("/api/v1/admin", require("./routes/adminRoutes"));
 
 // Set the port
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Start the server and listen on the specified port
 app.listen(PORT, () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Layout from "./../../components/shared/Layout/Layout";
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -8,37 +8,35 @@ const OrganisationPage = () => {
   // get current user
   const { user } = useSelector((state) => state.auth);
   const [data, setData] = useState([]);
-  //find org records
-  const getOrg = async () => {
+
+  // Memoized function to get organization data
+  const getOrg = useCallback(async () => {
     try {
       if (user?.role === "donar") {
         const { data } = await API.get("/inventory/get-orgnaisation");
-        //   console.log(data);
         if (data?.success) {
           setData(data?.organisations);
         }
-      }
-      if (user?.role === "hospital") {
+      } else if (user?.role === "hospital") {
         const { data } = await API.get(
           "/inventory/get-orgnaisation-for-hospital"
         );
-        //   console.log(data);
         if (data?.success) {
           setData(data?.organisations);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching organization data:", error);
     }
-  };
+  }, [user?.role]); // Dependency for useCallback
 
   useEffect(() => {
     getOrg();
-  }, [user]);
+  }, [getOrg]); // Dependency for useEffect
 
   return (
     <Layout>
-      <table className="table ">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">Name</th>
