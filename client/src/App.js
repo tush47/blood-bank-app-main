@@ -12,7 +12,7 @@ import OrganisationPage from "./pages/Dashboard/OrganisationPage";
 import Consumer from "./pages/Dashboard/Consumer";
 import Donation from "./pages/Donation";
 import Analytics from "./pages/Dashboard/Analytics";
-import DonarList from "./pages/Admin/DonarList";
+import DonarList from "./pages/Admin/DonorList";
 import HospitalList from "./pages/Admin/HospitalList";
 import OrgList from "./pages/Admin/OrgList";
 import AdminHome from "./pages/Admin/AdminHome";

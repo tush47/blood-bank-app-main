@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Layout from "./../../components/shared/Layout/Layout";
+import Layout from "../../components/shared/Layout/Layout";
 import moment from "moment";
 import API from "../../services/API";
 
-const DonarList = () => {
+const DonorList = () => {
   const [data, setData] = useState([]);
-  //find donar records
+  //find donor records
   const getDonars = async () => {
     try {
       const { data } = await API.get("/admin/donar-list");
@@ -26,7 +26,7 @@ const DonarList = () => {
   const handelDelete = async (id) => {
     try {
       let answer = window.prompt(
-        "Are You SUre Want To Delete This Donar",
+        "Are you sure you want to delete this donor?",
         "Sure"
       );
       if (!answer) return;
@@ -53,7 +53,7 @@ const DonarList = () => {
         <tbody>
           {data?.map((record) => (
             <tr key={record._id}>
-              <td>{record.name || record.organisationName + " (ORG)"}</td>
+              <td>{record.name || record.organizationName + " (ORG)"}</td>
               <td>{record.email}</td>
               <td>{record.phone}</td>
               <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
@@ -73,4 +73,4 @@ const DonarList = () => {
   );
 };
 
-export default DonarList;
+export default DonorList;

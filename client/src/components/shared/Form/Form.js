@@ -3,14 +3,14 @@ import InputType from "./InputType";
 import { Link } from "react-router-dom";
 import { handleLogin, handleRegister } from "../../../services/authService";
 
-const Form = ({ formType, submitBtn, formTitle }) => {
+const Form = ({ formType, submitBtn, formTitle, layout }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("donar");
   const [name, setName] = useState("");
   const [organisationName, setOrganisationName] = useState("");
   const [hospitalName, setHospitalName] = useState("");
-  const [website, setWebsite] = useState("");
+  const [website] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   return (
@@ -36,7 +36,7 @@ const Form = ({ formType, submitBtn, formTitle }) => {
       >
         <h1 className="text-center">{formTitle}</h1>
         <hr />
-        <div className="d-flex mb-3">
+        <div className="d-flex flex-wrap mb-3 gap-2">
           <div className="form-check">
             <input
               type="radio"
@@ -99,7 +99,7 @@ const Form = ({ formType, submitBtn, formTitle }) => {
               return (
                 <>
                   <InputType
-                    labelText={"email"}
+                    labelText={"Email"}
                     labelFor={"forEmail"}
                     inputType={"email"}
                     name={"email"}
@@ -118,81 +118,146 @@ const Form = ({ formType, submitBtn, formTitle }) => {
               );
             }
             case formType === "register": {
-              return (
-                <>
-                  {(role === "admin" || role === "donar") && (
+              // Arrange fields in two columns if layout is horizontal
+              if (layout === "horizontal") {
+                return (
+                  <div className="row">
+                    <div className="col-md-6">
+                      {(role === "admin" || role === "donar") && (
+                        <InputType
+                          labelText={"Name"}
+                          labelFor={"forName"}
+                          inputType={"text"}
+                          name={"name"}
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
+                      )}
+                      {role === "organisation" && (
+                        <InputType
+                          labelText={"Organisation Name"}
+                          labelFor={"fororganisationName"}
+                          inputType={"text"}
+                          name={"organisationName"}
+                          value={organisationName}
+                          onChange={(e) => setOrganisationName(e.target.value)}
+                        />
+                      )}
+                      {role === "hospital" && (
+                        <InputType
+                          labelText={"Hospital Name"}
+                          labelFor={"forHospitalName"}
+                          inputType={"text"}
+                          name={"hospitalName"}
+                          value={hospitalName}
+                          onChange={(e) => setHospitalName(e.target.value)}
+                        />
+                      )}
+                      <InputType
+                        labelText={"Email"}
+                        labelFor={"forEmail"}
+                        inputType={"email"}
+                        name={"email"}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <InputType
+                        labelText={"Password"}
+                        labelFor={"forPassword"}
+                        inputType={"password"}
+                        name={"password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      <InputType
+                        labelText={"Address"}
+                        labelFor={"forAddress"}
+                        inputType={"text"}
+                        name={"address"}
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                      />
+                      <InputType
+                        labelText={"Phone"}
+                        labelFor={"forPhone"}
+                        inputType={"text"}
+                        name={"phone"}
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                );
+              } else {
+                return (
+                  <>
+                    {(role === "admin" || role === "donar") && (
+                      <InputType
+                        labelText={"Name"}
+                        labelFor={"forName"}
+                        inputType={"text"}
+                        name={"name"}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    )}
+                    {role === "organisation" && (
+                      <InputType
+                        labelText={"Organisation Name"}
+                        labelFor={"fororganisationName"}
+                        inputType={"text"}
+                        name={"organisationName"}
+                        value={organisationName}
+                        onChange={(e) => setOrganisationName(e.target.value)}
+                      />
+                    )}
+                    {role === "hospital" && (
+                      <InputType
+                        labelText={"Hospital Name"}
+                        labelFor={"forHospitalName"}
+                        inputType={"text"}
+                        name={"hospitalName"}
+                        value={hospitalName}
+                        onChange={(e) => setHospitalName(e.target.value)}
+                      />
+                    )}
                     <InputType
-                      labelText={"Name"}
-                      labelFor={"forName"}
-                      inputType={"text"}
-                      name={"name"}
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      labelText={"Email"}
+                      labelFor={"forEmail"}
+                      inputType={"email"}
+                      name={"email"}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
-                  )}
-                  {role === "organisation" && (
                     <InputType
-                      labelText={"Organisation Name"}
-                      labelFor={"fororganisationName"}
-                      inputType={"text"}
-                      name={"organisationName"}
-                      value={organisationName}
-                      onChange={(e) => setOrganisationName(e.target.value)}
+                      labelText={"Password"}
+                      labelFor={"forPassword"}
+                      inputType={"password"}
+                      name={"password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
-                  )}
-                  {role === "hospital" && (
                     <InputType
-                      labelText={"Hospital Name"}
-                      labelFor={"forHospitalName"}
+                      labelText={"Address"}
+                      labelFor={"forAddress"}
                       inputType={"text"}
-                      name={"hospitalName"}
-                      value={hospitalName}
-                      onChange={(e) => setHospitalName(e.target.value)}
+                      name={"address"}
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
                     />
-                  )}
-
-                  <InputType
-                    labelText={"email"}
-                    labelFor={"forEmail"}
-                    inputType={"email"}
-                    name={"email"}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <InputType
-                    labelText={"Password"}
-                    labelFor={"forPassword"}
-                    inputType={"password"}
-                    name={"password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <InputType
-                    labelText={"website"}
-                    labelFor={"forWebsite"}
-                    inputType={"text"}
-                    name={"website"}
-                    value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
-                  />
-                  <InputType
-                    labelText={"Address"}
-                    labelFor={"forAddress"}
-                    inputType={"text"}
-                    name={"address"}
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                  <InputType
-                    labelText={"Phone"}
-                    labelFor={"forPhone"}
-                    inputType={"text"}
-                    name={"phone"}
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                </>
-              );
+                    <InputType
+                      labelText={"Phone"}
+                      labelFor={"forPhone"}
+                      inputType={"text"}
+                      name={"phone"}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                    />
+                  </>
+                );
+              }
             }
           }
         })()}
@@ -205,8 +270,8 @@ const Form = ({ formType, submitBtn, formTitle }) => {
             </p>
           ) : (
             <p>
-              ALready Usser Please
-              <Link to="/login"> Login !</Link>
+              Already User Please
+              <Link to="/login"> Login!</Link>
             </p>
           )}
           <button className="btn btn-primary" type="submit">
