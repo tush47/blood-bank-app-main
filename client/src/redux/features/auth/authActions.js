@@ -1,17 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../../services/API";
+
 export const userLogin = createAsyncThunk(
   "auth/login",
   async ({ role, email, password }, { rejectWithValue }) => {
     try {
       const { data } = await API.post("/auth/login", { role, email, password });
-      //store token
       if (data.success) {
         alert(data.message);
         localStorage.setItem("token", data.token);
         window.location.replace("/");
+        return { user: data.user, token: data.token };
+      } else {
+        return rejectWithValue(data.message || "Login failed");
       }
-      return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -52,9 +54,12 @@ export const userRegister = createAsyncThunk(
         website,
       });
       if (data?.success) {
-        alert("User Registerd Successfully");
+        alert("User registered successfully.");
         window.location.replace("/login");
-        // toast.success("User Registerd Successfully");
+        // toast.success("User registered successfully.");
+        return { user: data.user };
+      } else {
+        return rejectWithValue(data.message || "Registration failed");
       }
     } catch (error) {
       console.log(error);
@@ -70,11 +75,13 @@ export const userRegister = createAsyncThunk(
 //current user
 export const getCurrentUser = createAsyncThunk(
   "auth/getCurrentUser",
-  async ({ rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const res = await API.get("/auth/current-user");
-      if (res.data) {
-        return res?.data;
+      if (res.data && res.data.user) {
+        return { user: res.data.user };
+      } else {
+        return rejectWithValue("No user data");
       }
     } catch (error) {
       console.log(error);

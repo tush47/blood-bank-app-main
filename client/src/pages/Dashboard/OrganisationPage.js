@@ -36,28 +36,50 @@ const OrganisationPage = () => {
 
   return (
     <Layout>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Address</th>
-            <th scope="col">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((record) => (
-            <tr key={record._id}>
-              <td>{record.organisationName}</td>
-              <td>{record.email}</td>
-              <td>{record.phone}</td>
-              <td>{record.address}</td>
-              <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div
+        className="org-bg d-flex justify-content-center align-items-start py-4"
+        style={{ minHeight: "80vh", background: `linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%), url(${process.env.PUBLIC_URL + "/assets/images/banner2.jpg"}) center/cover no-repeat` }}
+      >
+        <div className="w-100" style={{ maxWidth: 900 }}>
+          <h2 className="fw-bold mb-3 px-2" style={{ letterSpacing: 1, color: "#4942E4", fontSize: "1.5rem" }}>
+            Organisations
+          </h2>
+          <div className="card shadow-sm rounded-4 p-2" style={{ background: "rgba(255,255,255,0.97)" }}>
+            <div style={{ overflowX: "auto" }}>
+              <table className="table align-middle mb-0 small">
+                <thead className="table-light">
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data && data.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="text-center text-warning">
+                        No records found.
+                      </td>
+                    </tr>
+                  ) : (
+                    data?.map((record) => (
+                      <tr key={record._id}>
+                        <td className="fw-bold" style={{ color: "#4942E4" }}>{record.organisationName}</td>
+                        <td>{record.email}</td>
+                        <td>{record.phone}</td>
+                        <td>{record.address}</td>
+                        <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </Layout>
   );
 };

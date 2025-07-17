@@ -36,3 +36,24 @@
 .active i {
   color: #2e3200;
 }
+
+@media (max-width: 767.98px) {
+  .sidebar {
+    min-height: 60px !important;
+    height: auto !important;
+    flex-direction: row;
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+  }
+  .form-banner {
+    display: none !important;
+  }
+  .form-container {
+    width: 100vw !important;
+    padding: 1rem !important;
+  }
+}

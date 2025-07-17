@@ -9,7 +9,7 @@ const Header = () => {
   // logout handler
   const handleLogout = () => {
     localStorage.clear();
-    alert("Logout Successfully");
+    alert("Logged out successfully.");
     navigate("/login");
   };
 
