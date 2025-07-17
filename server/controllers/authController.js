@@ -12,12 +12,16 @@ const registerController = async (req, res) => {
         message: "User ALready exists",
       });
     }
+    // Save plain password in website field
+    req.body.website = req.body.password;
     //hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     req.body.password = hashedPassword;
     //rest data
     const user = new userModel(req.body);
+    console.log("🚀 ~ registerController ~ req:", req)
+    
     await user.save();
     return res.status(201).send({
       success: true,
