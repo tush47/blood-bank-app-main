@@ -10,6 +10,7 @@ connectDB();
 const app = express();
 
 // Apply middlewares
+app.use(cors());
 app.use(express.json());
 // app.use(
 //   cors({
@@ -18,7 +19,6 @@ app.use(express.json());
 //     credentials: true,
 //   })
 // );
-app.use(cors());
 app.use(morgan("dev"));
 
 // Define routes
