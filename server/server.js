@@ -21,7 +21,7 @@ app.use(
 app.use(morgan("dev"));
 
 // Define routes
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Backend is running!");
 });
 app.use("/api/v1/test", require("./routes/testRoutes"));
