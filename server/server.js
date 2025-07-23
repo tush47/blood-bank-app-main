@@ -11,13 +11,34 @@ const app = express();
 
 // Apply middlewares
 app.use(express.json());
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL || 'https://blood-bank-app-main.vercel.app',
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true,
+//   })
+// );
+const allowedOrigins = [
+  'https://blood-bank-app-main.vercel.app',
+  'https://blood-bank-app-main-git-latest-tush47s-projects.vercel.app',
+  'http://localhost:3000',
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'https://blood-bank-app-main.vercel.app',
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like Postman)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
 app.use(morgan("dev"));
 
 // Define routes
