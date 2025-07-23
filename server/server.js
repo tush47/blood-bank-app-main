@@ -13,14 +13,13 @@ const app = express();
 app.use(express.json());
 // app.use(
 //   cors({
-//     origin: process.env.CLIENT_URL || 'https://blood-bank-app-main.vercel.app',
+//     origin: process.env.CLIENT_URL || 'https://blood-bank-app-main-frontend.onrender.com',
 //     methods: ["GET", "POST", "PUT", "DELETE"],
 //     credentials: true,
 //   })
 // );
 const allowedOrigins = [
-  'https://blood-bank-app-main.vercel.app',
-  'https://blood-bank-app-main-git-latest-tush47s-projects.vercel.app',
+  'https://blood-bank-app-main-frontend.onrender.com',
   'http://localhost:3000',
 ];
 
