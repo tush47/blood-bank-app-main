@@ -7,59 +7,60 @@ const colors = require("colors");
 
 dotenv.config();
 connectDB();
+
 const app = express();
 
-// Apply middlewares
+// ✅ 1. Use JSON parser first
 app.use(express.json());
-// app.use(
-//   cors({
-//     origin: process.env.CLIENT_URL || 'https://blood-bank-app-main-frontend.onrender.com',
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true,
-//   })
-// );
+
+// ✅ 2. CORS Configuration
 const allowedOrigins = [
-  'https://blood-bank-app-main-frontend.onrender.com',
-  'http://localhost:3000',
+  "https://blood-bank-app-main-frontend.onrender.com",
+  "http://localhost:3000"
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like Postman)
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
-app.options('*', cors());
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // ✅ handle preflight
+
+// ✅ 3. Logger
 app.use(morgan("dev"));
 
-// Define routes
-app.get("/", (req, res) => {
-  res.send("Backend is running!");
-});
+// ✅ 4. Your Routes
+app.get("/", (req, res) => res.send("Backend is running!"));
 app.use("/api/v1/test", require("./routes/testRoutes"));
 app.use("/api/v1/auth", require("./routes/authRoutes"));
 app.use("/api/v1/inventory", require("./routes/inventoryRoutes"));
 app.use("/api/v1/analytics", require("./routes/analyticsRoutes"));
 app.use("/api/v1/admin", require("./routes/adminRoutes"));
 
-// Optional: catch-all 404 handler
+// ✅ 5. 404 Handler
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found" });
 });
 
-const PORT = process.env.PORT;
+// ✅ 6. CORS Error handler
+app.use((err, req, res, next) => {
+  if (err.message === "Not allowed by CORS") {
+    return res.status(403).json({ error: "CORS Error: Origin not allowed" });
+  }
+  next(err);
+});
 
+// ✅ 7. Start Server
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  // If using 'colors', use the next line, otherwise use the one after
-  console.log(`Node Server Running In ${process.env.DEV_MODE} Mode On Port ${PORT}`.bgBlue.white);
-  console.log(`Node Server Running In ${process.env.DEV_MODE} Mode On Port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
