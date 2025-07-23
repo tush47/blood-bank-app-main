@@ -1,5 +1,5 @@
 import axios from "axios";
-console.log("API BASE URL:", process.env.REACT_APP_OLD_BASEURL);
+
 const API = axios.create({ baseURL: process.env.REACT_APP_OLD_BASEURL });
 
 API.interceptors.request.use((req) => {

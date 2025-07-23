@@ -10,8 +10,7 @@ connectDB();
 const app = express();
 
 // Apply middlewares
-// app.use(cors());
-// app.use(express.json());
+app.use(express.json());
 app.use(
   cors({
     origin: process.env.CLIENT_URL || 'https://blood-bank-app-main.vercel.app',
@@ -19,7 +18,6 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
 app.use(morgan("dev"));
 
 // Define routes
