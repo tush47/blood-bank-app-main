@@ -16,6 +16,7 @@ app.use(express.json());
 // ✅ 2. CORS Configuration
 const allowedOrigins = [
   "https://blood-bank-app-main-frontend.onrender.com",
+  "https://blood-bank-app-main-git-latest-tush47s-projects.vercel.app",
   "http://localhost:3000"
 ];
 
