@@ -65,21 +65,3 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-// const express = require("express");
-// const cors = require("cors");
-
-// const app = express();
-
-// app.use(cors({
-//   origin: "https://blood-bank-app-main-frontend.onrender.com",
-//   credentials: true,
-// }));
-
-// app.get("/", (req, res) => {
-//   res.send("✅ Backend is UP and CORS is working!");
-// });
-
-// app.listen(process.env.PORT || 8080, () => {
-//   console.log("✅ Server started");
-// });
